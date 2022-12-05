@@ -49,7 +49,7 @@ public class HitCheckRepositoryImpl implements HitCheckRepository {
     @Override
     public void deleteAllByUserId(Integer userId) {
         dsl.delete(HIT_CHECKS)
-                .where()
+                .where(HIT_CHECKS.USER_ID.eq(userId))
                 .execute();
     }
 }

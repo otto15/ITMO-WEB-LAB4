@@ -31,25 +31,25 @@ public class JwtUtils {
     @Value("${app.jwt.refresh.expiration}")
     private int jwtRefreshExpiration;
 
-    private String generateTokenFromUsername(String username, String jwtSecret) {
+    private String generateTokenFromUsername(String username, String jwtSecret, int expiration) {
         Date currentDate = new Date();
         return Jwts.builder().setSubject(username).setIssuedAt(currentDate)
-                .setExpiration(new Date(currentDate.getTime() + jwtAccessExpiration))
+                .setExpiration(new Date(currentDate.getTime() + expiration))
                 .setSubject(username)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 
     public String generateAccessTokenFromUsername(String username) {
-        return generateTokenFromUsername(username, jwtAccessSecret);
+        return generateTokenFromUsername(username, jwtAccessSecret, jwtAccessExpiration);
     }
 
     public String generateRefreshTokenFromUsername(String username) {
-        return generateTokenFromUsername(username, jwtRefreshSecret);
+        return generateTokenFromUsername(username, jwtRefreshSecret, jwtRefreshExpiration);
     }
 
     private String getUsernameFromJwtToken(String token, String secretKey) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJwt(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
     public String getUsernameFromAccessJwtToken(String token) {
@@ -62,7 +62,7 @@ public class JwtUtils {
 
     public boolean validateJwtToken(String authToken, String jwtSecret) {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJwt(authToken);
+            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException e) {
             log.error("Invalid JWT signature: {}", e.getMessage());

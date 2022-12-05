@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.jooq.Catalog;
+import org.jooq.Sequence;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
 
@@ -52,10 +53,16 @@ public class S335109 extends SchemaImpl {
     }
 
     @Override
+    public final List<Sequence<?>> getSequences() {
+        return Arrays.<Sequence<?>>asList(
+            Sequences.APP_USERS_ID_SEQ,
+            Sequences.HIT_CHECKS_ID_SEQ);
+    }
+
+    @Override
     public final List<Table<?>> getTables() {
-        return Arrays.asList(
+        return Arrays.<Table<?>>asList(
             AppUsers.APP_USERS,
-            HitChecks.HIT_CHECKS
-        );
+            HitChecks.HIT_CHECKS);
     }
 }

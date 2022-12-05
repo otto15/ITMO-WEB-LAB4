@@ -1,22 +1,23 @@
-package com.otto.lab4.domain;
+package com.otto.lab4.controller.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-
+import javax.validation.constraints.Positive;
 import java.time.Instant;
 
-@Data
 @Builder
-public class HitCheck {
-
-    private Integer userId;
-    private Integer id;
+@Getter
+@Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class HitCheckDTO {
     private Double x;
     private Double y;
-    private Double r;
 
+    @Positive
+    private Double r;
     private Instant callingDate;
     private Long executionTime;
     private Boolean hitStatus;

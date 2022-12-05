@@ -8,6 +8,6 @@ public interface UserService {
 
     JwtResponse login(UserCredentialsDTO userCredentialsDTO);
     void register(UserCredentialsDTO userCredentialsDTO);
-    JwtResponse refresh(String refreshToken, UserDetailsImpl userDetails);
+    JwtResponse refresh(String refreshToken);
 
 }

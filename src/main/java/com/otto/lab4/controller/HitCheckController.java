@@ -1,24 +1,34 @@
 package com.otto.lab4.controller;
 
+import com.otto.lab4.controller.dto.HitCheckDTO;
 import com.otto.lab4.domain.HitCheck;
 import com.otto.lab4.security.service.UserDetailsImpl;
-import com.otto.lab4.service.AreaChecker;
 import com.otto.lab4.service.HitCheckService;
 import com.otto.lab4.service.command.CheckAndSaveDotCommand;
 import com.otto.lab4.service.command.GetDotsForUserCommand;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
+@Validated
 public class HitCheckController {
 
     private final HitCheckService hitCheckService;
@@ -30,20 +40,22 @@ public class HitCheckController {
     }
 
     @GetMapping("/hit-checks")
-    public List<HitCheck> getAllHitChecks(@RequestParam Double radius, @AuthenticationPrincipal UserDetailsImpl user) {
+    public List<HitCheckDTO> getAllHitChecks(@RequestParam(required = false) @Positive Double radius,
+                                          @AuthenticationPrincipal UserDetailsImpl user) {
         return hitCheckService.getDotsForUser(new GetDotsForUserCommand(
                 user.getId(), radius
         ));
     }
 
     @PostMapping("/hit-check")
-    public void processHitCheck(HitCheck hitCheck, @AuthenticationPrincipal UserDetailsImpl user) {
+    public void processHitCheck(@Valid @RequestBody HitCheckDTO hitCheck, @AuthenticationPrincipal UserDetailsImpl user) {
         hitCheckService.checkAndSaveHitCheck(new CheckAndSaveDotCommand(hitCheck, user.getId()));
+
     }
 
-    @DeleteMapping("/hit-check")
+    @DeleteMapping("/hit-checks")
     public void deleteHitCheck(@AuthenticationPrincipal UserDetailsImpl user) {
-
+        hitCheckService.deleteAllHitChecksByUser(user.getId());
     }
 
 }

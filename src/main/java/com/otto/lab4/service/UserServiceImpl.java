@@ -34,9 +34,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public JwtResponse login(UserCredentialsDTO userCredentialsDTO) {
         Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(userCredentialsDTO.getName(), userCredentialsDTO.getPassword())
+                new UsernamePasswordAuthenticationToken(userCredentialsDTO.getUsername(), userCredentialsDTO.getPassword())
         );
-        SecurityContextHolder.getContext().setAuthentication(auth);
         UserDetailsImpl userDetails = (UserDetailsImpl) auth.getPrincipal();
         String accessToken = jwtUtils.generateAccessTokenFromUsername(userDetails.getUsername());
         String refreshToken = jwtUtils.generateRefreshTokenFromUsername(userDetails.getUsername());
@@ -51,27 +50,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void register(UserCredentialsDTO userCredentialsDTO) {
-        if (userRepository.existsByName(userCredentialsDTO.getName())) {
+        if (userRepository.existsByName(userCredentialsDTO.getUsername())) {
             throw new UserAlreadyExistsException();
         }
         AppUser user = AppUser.builder()
-                .name(userCredentialsDTO.getName())
+                .name(userCredentialsDTO.getUsername())
                 .password(encoder.encode(userCredentialsDTO.getPassword()))
                 .build();
         userRepository.save(user);
     }
 
     @Override
-    public JwtResponse refresh(String refreshToken, UserDetailsImpl userDetails) {
-        if (jwtUtils.validateRefreshJwtToken(refreshToken)
-                && jwtUtils.getUsernameFromRefreshJwtToken(refreshToken).equals(userDetails.getUsername())) {
+    public JwtResponse refresh(String refreshToken) {
+        if (jwtUtils.validateRefreshJwtToken(refreshToken)) {
 
-            String newAccessToken = jwtUtils.generateAccessTokenFromUsername(userDetails.getUsername());
+            String newAccessToken = jwtUtils.generateAccessTokenFromUsername(jwtUtils
+                    .getUsernameFromRefreshJwtToken(refreshToken));
             return JwtResponse.builder()
                     .type(JwtUtils.TOKEN_TYPE)
                     .refreshToken(refreshToken)
                     .accessToken(newAccessToken)
-                    .userId(userDetails.getId())
                     .build();
         }
         throw new InvalidRefreshTokenException();

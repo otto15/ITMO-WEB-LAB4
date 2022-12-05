@@ -10,18 +10,14 @@ import com.otto.lab4.jooq.tables.records.AppUsersRecord;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function3;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Records;
 import org.jooq.Row3;
 import org.jooq.Schema;
-import org.jooq.SelectField;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
@@ -102,7 +98,7 @@ public class AppUsers extends TableImpl<AppUsersRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : S335109.S335109;
+        return S335109.S335109;
     }
 
     @Override
@@ -116,8 +112,8 @@ public class AppUsers extends TableImpl<AppUsersRecord> {
     }
 
     @Override
-    public List<UniqueKey<AppUsersRecord>> getUniqueKeys() {
-        return Arrays.asList(Keys.APP_USERS_NAME_KEY);
+    public List<UniqueKey<AppUsersRecord>> getKeys() {
+        return Arrays.<UniqueKey<AppUsersRecord>>asList(Keys.APP_USERS_PKEY, Keys.APP_USERS_NAME_KEY);
     }
 
     @Override
@@ -128,11 +124,6 @@ public class AppUsers extends TableImpl<AppUsersRecord> {
     @Override
     public AppUsers as(Name alias) {
         return new AppUsers(alias, this);
-    }
-
-    @Override
-    public AppUsers as(Table<?> alias) {
-        return new AppUsers(alias.getQualifiedName(), this);
     }
 
     /**
@@ -151,14 +142,6 @@ public class AppUsers extends TableImpl<AppUsersRecord> {
         return new AppUsers(name, null);
     }
 
-    /**
-     * Rename this table
-     */
-    @Override
-    public AppUsers rename(Table<?> name) {
-        return new AppUsers(name.getQualifiedName(), null);
-    }
-
     // -------------------------------------------------------------------------
     // Row3 type methods
     // -------------------------------------------------------------------------
@@ -166,20 +149,5 @@ public class AppUsers extends TableImpl<AppUsersRecord> {
     @Override
     public Row3<Integer, String, String> fieldsRow() {
         return (Row3) super.fieldsRow();
-    }
-
-    /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
-     */
-    public <U> SelectField<U> mapping(Function3<? super Integer, ? super String, ? super String, ? extends U> from) {
-        return convertFrom(Records.mapping(from));
-    }
-
-    /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Class,
-     * Function)}.
-     */
-    public <U> SelectField<U> mapping(Class<U> toType, Function3<? super Integer, ? super String, ? super String, ? extends U> from) {
-        return convertFrom(toType, Records.mapping(from));
     }
 }

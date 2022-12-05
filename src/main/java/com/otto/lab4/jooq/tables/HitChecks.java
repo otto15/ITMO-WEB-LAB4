@@ -11,18 +11,14 @@ import com.otto.lab4.jooq.tables.records.HitChecksRecord;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function8;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Records;
 import org.jooq.Row8;
 import org.jooq.Schema;
-import org.jooq.SelectField;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
@@ -128,7 +124,7 @@ public class HitChecks extends TableImpl<HitChecksRecord> {
 
     @Override
     public Schema getSchema() {
-        return aliased() ? null : S335109.S335109;
+        return S335109.S335109;
     }
 
     @Override
@@ -142,15 +138,17 @@ public class HitChecks extends TableImpl<HitChecksRecord> {
     }
 
     @Override
+    public List<UniqueKey<HitChecksRecord>> getKeys() {
+        return Arrays.<UniqueKey<HitChecksRecord>>asList(Keys.HIT_CHECKS_PKEY);
+    }
+
+    @Override
     public List<ForeignKey<HitChecksRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.HIT_CHECKS__FK_USER);
+        return Arrays.<ForeignKey<HitChecksRecord, ?>>asList(Keys.HIT_CHECKS__FK_USER);
     }
 
     private transient AppUsers _appUsers;
 
-    /**
-     * Get the implicit join path to the <code>s335109.app_users</code> table.
-     */
     public AppUsers appUsers() {
         if (_appUsers == null)
             _appUsers = new AppUsers(this, Keys.HIT_CHECKS__FK_USER);
@@ -166,11 +164,6 @@ public class HitChecks extends TableImpl<HitChecksRecord> {
     @Override
     public HitChecks as(Name alias) {
         return new HitChecks(alias, this);
-    }
-
-    @Override
-    public HitChecks as(Table<?> alias) {
-        return new HitChecks(alias.getQualifiedName(), this);
     }
 
     /**
@@ -189,14 +182,6 @@ public class HitChecks extends TableImpl<HitChecksRecord> {
         return new HitChecks(name, null);
     }
 
-    /**
-     * Rename this table
-     */
-    @Override
-    public HitChecks rename(Table<?> name) {
-        return new HitChecks(name.getQualifiedName(), null);
-    }
-
     // -------------------------------------------------------------------------
     // Row8 type methods
     // -------------------------------------------------------------------------
@@ -204,20 +189,5 @@ public class HitChecks extends TableImpl<HitChecksRecord> {
     @Override
     public Row8<Integer, Integer, Double, Double, Double, OffsetDateTime, Long, Boolean> fieldsRow() {
         return (Row8) super.fieldsRow();
-    }
-
-    /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
-     */
-    public <U> SelectField<U> mapping(Function8<? super Integer, ? super Integer, ? super Double, ? super Double, ? super Double, ? super OffsetDateTime, ? super Long, ? super Boolean, ? extends U> from) {
-        return convertFrom(Records.mapping(from));
-    }
-
-    /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Class,
-     * Function)}.
-     */
-    public <U> SelectField<U> mapping(Class<U> toType, Function8<? super Integer, ? super Integer, ? super Double, ? super Double, ? super Double, ? super OffsetDateTime, ? super Long, ? super Boolean, ? extends U> from) {
-        return convertFrom(toType, Records.mapping(from));
     }
 }
