@@ -15,12 +15,14 @@ public class UserDetailsImpl implements UserDetails {
 
     private String name;
 
+    private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
     public static UserDetailsImpl build(AppUser user) {
         return UserDetailsImpl.builder()
                 .id(user.getId())
                 .name(user.getName())
+                .password(user.getPassword())
                 .authorities(new ArrayList<>())
                 .build();
     }
@@ -28,6 +30,11 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     public Integer getId() {

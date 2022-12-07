@@ -1,5 +1,6 @@
 package com.otto.lab4.security.jwt;
 
+import com.otto.lab4.security.service.BearerUser;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -31,32 +32,32 @@ public class JwtUtils {
     @Value("${app.jwt.refresh.expiration}")
     private int jwtRefreshExpiration;
 
-    private String generateTokenFromUsername(String username, String jwtSecret, int expiration) {
+    private String generateTokenFromUsername(BearerUser user, String jwtSecret, int expiration) {
         Date currentDate = new Date();
-        return Jwts.builder().setSubject(username).setIssuedAt(currentDate)
+        return Jwts.builder().setSubject(String.valueOf(user.getUserId())).setIssuedAt(currentDate)
                 .setExpiration(new Date(currentDate.getTime() + expiration))
-                .setSubject(username)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 
-    public String generateAccessTokenFromUsername(String username) {
-        return generateTokenFromUsername(username, jwtAccessSecret, jwtAccessExpiration);
+    public String generateAccessTokenFromUsername(BearerUser user) {
+        return generateTokenFromUsername(user, jwtAccessSecret, jwtAccessExpiration);
     }
 
-    public String generateRefreshTokenFromUsername(String username) {
-        return generateTokenFromUsername(username, jwtRefreshSecret, jwtRefreshExpiration);
+    public String generateRefreshTokenFromUsername(BearerUser user) {
+        return generateTokenFromUsername(user, jwtRefreshSecret, jwtRefreshExpiration);
     }
 
-    private String getUsernameFromJwtToken(String token, String secretKey) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+    private BearerUser getUsernameFromJwtToken(String token, String secretKey) {
+        Integer id = Integer.parseInt(Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject());
+        return new BearerUser(id);
     }
 
-    public String getUsernameFromAccessJwtToken(String token) {
+    public BearerUser getUserFromAccessJwtToken(String token) {
         return getUsernameFromJwtToken(token, jwtAccessSecret);
     }
 
-    public String getUsernameFromRefreshJwtToken(String token) {
+    public BearerUser getUsernameFromRefreshJwtToken(String token) {
         return getUsernameFromJwtToken(token, jwtRefreshSecret);
     }
 

@@ -2,6 +2,7 @@ package com.otto.lab4.controller;
 
 import com.otto.lab4.controller.dto.HitCheckDTO;
 import com.otto.lab4.domain.HitCheck;
+import com.otto.lab4.security.service.BearerUser;
 import com.otto.lab4.security.service.UserDetailsImpl;
 import com.otto.lab4.service.HitCheckService;
 import com.otto.lab4.service.command.CheckAndSaveDotCommand;
@@ -41,21 +42,21 @@ public class HitCheckController {
 
     @GetMapping("/hit-checks")
     public List<HitCheckDTO> getAllHitChecks(@RequestParam(required = false) @Positive Double radius,
-                                          @AuthenticationPrincipal UserDetailsImpl user) {
+                                          @AuthenticationPrincipal BearerUser user) {
         return hitCheckService.getDotsForUser(new GetDotsForUserCommand(
-                user.getId(), radius
+                user.getUserId(), radius
         ));
     }
 
     @PostMapping("/hit-check")
-    public void processHitCheck(@Valid @RequestBody HitCheckDTO hitCheck, @AuthenticationPrincipal UserDetailsImpl user) {
-        hitCheckService.checkAndSaveHitCheck(new CheckAndSaveDotCommand(hitCheck, user.getId()));
+    public void processHitCheck(@Valid @RequestBody HitCheckDTO hitCheck, @AuthenticationPrincipal BearerUser user) {
+        hitCheckService.checkAndSaveHitCheck(new CheckAndSaveDotCommand(hitCheck, user.getUserId()));
 
     }
 
     @DeleteMapping("/hit-checks")
-    public void deleteHitCheck(@AuthenticationPrincipal UserDetailsImpl user) {
-        hitCheckService.deleteAllHitChecksByUser(user.getId());
+    public void deleteHitCheck(@AuthenticationPrincipal BearerUser user) {
+        hitCheckService.deleteAllHitChecksByUser(user.getUserId());
     }
 
 }

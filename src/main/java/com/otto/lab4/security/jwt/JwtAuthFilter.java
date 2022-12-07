@@ -1,6 +1,7 @@
 package com.otto.lab4.security.jwt;
 
 
+import com.otto.lab4.security.service.BearerUser;
 import com.otto.lab4.security.service.UserDetailsServiceImpl;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -40,13 +41,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         try {
             String jwtToken = extractJwtToken(request);
             if (jwtToken != null && jwtUtils.validateAccessJwtToken(jwtToken)) {
-                String username = jwtUtils.getUsernameFromAccessJwtToken(jwtToken);
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities()
+                BearerUser bearerUser = jwtUtils.getUserFromAccessJwtToken(jwtToken);
+
+                BearerAuthToken bearerAuthToken = new BearerAuthToken(
+                        bearerUser
                 );
 
-                SecurityContextHolder.getContext().setAuthentication(auth);
+                SecurityContextHolder.getContext().setAuthentication(bearerAuthToken);
             }
         } catch (Exception e) {
             log.error("Cannot set user authentication: {}", e.getMessage());

@@ -7,6 +7,7 @@ import com.otto.lab4.exception.InvalidRefreshTokenException;
 import com.otto.lab4.exception.UserAlreadyExistsException;
 import com.otto.lab4.repository.UserRepository;
 import com.otto.lab4.security.jwt.JwtUtils;
+import com.otto.lab4.security.service.BearerUser;
 import com.otto.lab4.security.service.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -37,8 +38,9 @@ public class UserServiceImpl implements UserService {
                 new UsernamePasswordAuthenticationToken(userCredentialsDTO.getUsername(), userCredentialsDTO.getPassword())
         );
         UserDetailsImpl userDetails = (UserDetailsImpl) auth.getPrincipal();
-        String accessToken = jwtUtils.generateAccessTokenFromUsername(userDetails.getUsername());
-        String refreshToken = jwtUtils.generateRefreshTokenFromUsername(userDetails.getUsername());
+        BearerUser authedUser = new BearerUser(userDetails.getId());
+        String accessToken = jwtUtils.generateAccessTokenFromUsername(authedUser);
+        String refreshToken = jwtUtils.generateRefreshTokenFromUsername(authedUser);
 
         return JwtResponse.builder()
                 .userId(userDetails.getId())
