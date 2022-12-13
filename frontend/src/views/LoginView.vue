@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <log-in />
-  </div>
+  <log-in />
 </template>
 
 <script>

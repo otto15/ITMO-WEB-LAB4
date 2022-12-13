@@ -1,38 +1,34 @@
-import axios from 'axios';
+import TokenService from "@/services/tokenService";
+import api from "@/services/api";
 
-const API_URL = "http://localhost:8090/api/auth/";
-const LOGIN_POSTFIX = "signin";
-const REGISTER_POSTFIX = "register";
+const LOGIN_POSTFIX = "api/auth/login";
+const REGISTER_POSTFIX = "api/auth/register";
 
 class AuthService {
-    login(user) {
-        return axios.post(
-            API_URL + LOGIN_POSTFIX,
-            {
-                username: user.username,
-                password: user.password
-            }
-        )
-        .then(
-            response => {
-                if (response.data.accessToken) {
-                    localStorage.setItem('user', JSON.stringify(response.data))
-                }
-            }
-        )
-    }
+  login(user) {
+    return api
+      .post(LOGIN_POSTFIX, {
+        username: user.username,
+        password: user.password,
+      })
+      .then((response) => {
+        if (response.data.accessToken && response.data.refreshToken) {
+          TokenService.setUser(response.data);
+        }
+        return response.data;
+      });
+  }
 
-    logout(user) {
-        localStorage.removeItem(user);
-    }
+  logout() {
+    TokenService.removeUser();
+  }
 
-    register(user) {
-        return axios.post(
-            API_URL + REGISTER_POSTFIX,
-            {
-                username: user.username,
-                password: user.password
-            }
-        );
-    }
+  register(user) {
+    return api.post(REGISTER_POSTFIX, {
+      username: user.username,
+      password: user.password,
+    });
+  }
 }
+
+export default new AuthService();
