@@ -15,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -52,14 +53,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void register(UserCredentialsDTO userCredentialsDTO) {
-        if (userRepository.existsByName(userCredentialsDTO.getUsername())) {
-            throw new UserAlreadyExistsException();
-        }
         AppUser user = AppUser.builder()
                 .name(userCredentialsDTO.getUsername())
                 .password(encoder.encode(userCredentialsDTO.getPassword()))
                 .build();
-        userRepository.save(user);
+        try {
+            userRepository.save(user);
+            System.out.println("1");
+        } catch (DataIntegrityViolationException e) {
+            System.out.println("2");
+            throw new UserAlreadyExistsException();
+        }
     }
 
     @Override
