@@ -70,7 +70,7 @@ public class SecurityConfig {
                 .cors().configurationSource(
                     request -> {
                         CorsConfiguration corsConfig = new CorsConfiguration().applyPermitDefaultValues();
-                        corsConfig.setAllowedOrigins(List.of("http://localhost:8080"));
+                        corsConfig.setAllowedOrigins(List.of("http://localhost:8080", "https://se.ifmo.ru"));
                         corsConfig.addAllowedMethod(HttpMethod.DELETE);
                         return corsConfig;
                     }
