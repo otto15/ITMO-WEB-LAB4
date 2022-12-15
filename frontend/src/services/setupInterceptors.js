@@ -27,26 +27,26 @@ const setup = (store) => {
       const originalConfig = error.config;
       const authRequired = !publicUrls.includes(originalConfig.url);
       if (authRequired && error.response.status === 401 && !refresh) {
-          refresh = true;
+        refresh = true;
 
-          try {
-            const response = await axiosInstance.post("api/auth/refresh", {
-              refreshToken: TokenService.getLocalRefreshToken(),
-            });
+        try {
+          const response = await axiosInstance.post("api/auth/refresh", {
+            refreshToken: TokenService.getLocalRefreshToken(),
+          });
 
-            const { status, data } = response;
-            if (status === 200) {
-              originalConfig._retry = true;
+          const { status, data } = response;
+          if (status === 200) {
+            originalConfig._retry = true;
 
-              store.dispatch("auth/refreshToken", data.accessToken);
-              TokenService.updateLocalAccessToken(data.accessToken);
+            store.dispatch("auth/refreshToken", data.accessToken);
+            TokenService.updateLocalAccessToken(data.accessToken);
 
-              return axiosInstance(originalConfig);
-            }
-          } catch(e) {
-            eventBus.dispatch("logout");
-            return Promise.reject(e);
+            return axiosInstance(originalConfig);
           }
+        } catch (e) {
+          eventBus.dispatch("logout");
+          return Promise.reject(e);
+        }
       }
       refresh = false;
       return Promise.reject(error);
