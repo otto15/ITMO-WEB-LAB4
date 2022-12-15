@@ -25,9 +25,9 @@ public class DefaultCatalog extends CatalogImpl {
     public static final DefaultCatalog DEFAULT_CATALOG = new DefaultCatalog();
 
     /**
-     * The schema <code>s335109</code>.
+     * The schema <code>public</code>.
      */
-    public final S335109 S335109 = com.otto.lab4.jooq.S335109.S335109;
+    public final Public PUBLIC = Public.PUBLIC;
 
     /**
      * No further instances allowed
@@ -39,6 +39,6 @@ public class DefaultCatalog extends CatalogImpl {
     @Override
     public final List<Schema> getSchemas() {
         return Arrays.<Schema>asList(
-            S335109.S335109);
+            Public.PUBLIC);
     }
 }

@@ -15,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.http.HttpMethod;
 
@@ -57,7 +56,10 @@ public class SecurityConfig {
     }
 
     private static final String[] WHITE_LIST = {
-            "/api/auth/**",
+            "/methods",
+            "/api/auth/login",
+            "/api/auth/register",
+            "/api/auth/refresh",
             "/v3/api-docs/**",
             "/swagger-ui/**"
     };

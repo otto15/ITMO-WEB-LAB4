@@ -19,3 +19,15 @@ CREATE TABLE IF NOT EXISTS s335109.hit_checks (
         FOREIGN KEY (user_id)
             REFERENCES s335109.app_users(id)
 );
+
+CREATE TABLE IF NOT EXISTS s335109.restricted_refresh_tokens (
+    id SERIAL,
+    token VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS s335109.audited_methods (
+    id SERIAL,
+    user_id integer,
+    method_signature VARCHAR,
+    calling_date TIMESTAMP
+);

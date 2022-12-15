@@ -5,7 +5,7 @@ package com.otto.lab4.jooq.tables;
 
 
 import com.otto.lab4.jooq.Keys;
-import com.otto.lab4.jooq.S335109;
+import com.otto.lab4.jooq.Public;
 import com.otto.lab4.jooq.tables.records.AppUsersRecord;
 
 import java.util.Arrays;
@@ -36,7 +36,7 @@ public class AppUsers extends TableImpl<AppUsersRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>s335109.app_users</code>
+     * The reference instance of <code>public.app_users</code>
      */
     public static final AppUsers APP_USERS = new AppUsers();
 
@@ -49,17 +49,17 @@ public class AppUsers extends TableImpl<AppUsersRecord> {
     }
 
     /**
-     * The column <code>s335109.app_users.id</code>.
+     * The column <code>public.app_users.id</code>.
      */
     public final TableField<AppUsersRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>s335109.app_users.name</code>.
+     * The column <code>public.app_users.name</code>.
      */
     public final TableField<AppUsersRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR(20).nullable(false), this, "");
 
     /**
-     * The column <code>s335109.app_users.password</code>.
+     * The column <code>public.app_users.password</code>.
      */
     public final TableField<AppUsersRecord, String> PASSWORD = createField(DSL.name("password"), SQLDataType.VARCHAR(100).nullable(false), this, "");
 
@@ -72,21 +72,21 @@ public class AppUsers extends TableImpl<AppUsersRecord> {
     }
 
     /**
-     * Create an aliased <code>s335109.app_users</code> table reference
+     * Create an aliased <code>public.app_users</code> table reference
      */
     public AppUsers(String alias) {
         this(DSL.name(alias), APP_USERS);
     }
 
     /**
-     * Create an aliased <code>s335109.app_users</code> table reference
+     * Create an aliased <code>public.app_users</code> table reference
      */
     public AppUsers(Name alias) {
         this(alias, APP_USERS);
     }
 
     /**
-     * Create a <code>s335109.app_users</code> table reference
+     * Create a <code>public.app_users</code> table reference
      */
     public AppUsers() {
         this(DSL.name("app_users"), null);
@@ -98,7 +98,7 @@ public class AppUsers extends TableImpl<AppUsersRecord> {
 
     @Override
     public Schema getSchema() {
-        return S335109.S335109;
+        return Public.PUBLIC;
     }
 
     @Override

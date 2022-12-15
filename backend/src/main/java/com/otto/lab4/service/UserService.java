@@ -9,5 +9,6 @@ public interface UserService {
     JwtResponse login(UserCredentialsDTO userCredentialsDTO);
     void register(UserCredentialsDTO userCredentialsDTO);
     JwtResponse refresh(String refreshToken);
+    void logout(String refreshToken);
 
 }

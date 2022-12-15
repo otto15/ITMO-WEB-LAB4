@@ -1,8 +1,10 @@
 package com.otto.lab4.service;
 
+import com.otto.lab4.audited.Audited;
 import com.otto.lab4.controller.dto.HitCheckDTO;
 import com.otto.lab4.domain.HitCheck;
 import com.otto.lab4.repository.HitCheckRepository;
+import com.otto.lab4.repository.HitCheckRepositoryImpl;
 import com.otto.lab4.service.command.CheckAndSaveDotCommand;
 import com.otto.lab4.service.command.GetDotsForUserCommand;
 import com.otto.lab4.service.converter.HitCheckConverter;
@@ -29,6 +31,7 @@ public class HitCheckServiceImpl implements HitCheckService {
         this.hitCheckConverter = hitCheckConverter;
     }
 
+    @Audited
     @Override
     public List<HitCheckDTO> getDotsForUser(GetDotsForUserCommand getDotsForUserCommand) {
         List<HitCheck> hitChecks;

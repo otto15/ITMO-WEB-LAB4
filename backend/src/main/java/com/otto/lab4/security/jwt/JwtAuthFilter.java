@@ -41,10 +41,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         try {
             String jwtToken = extractJwtToken(request);
             if (jwtToken != null && jwtUtils.validateAccessJwtToken(jwtToken)) {
-                BearerUser bearerUser = jwtUtils.getUserFromAccessJwtToken(jwtToken);
+                Integer userId = jwtUtils.getUserIdFromAccessJwtToken(jwtToken);
 
                 BearerAuthToken bearerAuthToken = new BearerAuthToken(
-                        bearerUser
+                        new BearerUser(userId)
                 );
 
                 SecurityContextHolder.getContext().setAuthentication(bearerAuthToken);

@@ -32,33 +32,32 @@ public class JwtUtils {
     @Value("${app.jwt.refresh.expiration}")
     private int jwtRefreshExpiration;
 
-    private String generateTokenFromUsername(BearerUser user, String jwtSecret, int expiration) {
+    private String generateTokenFromUserId(Integer userId, String jwtSecret, int expiration) {
         Date currentDate = new Date();
-        return Jwts.builder().setSubject(String.valueOf(user.getUserId())).setIssuedAt(currentDate)
+        return Jwts.builder().setSubject(String.valueOf(userId)).setIssuedAt(currentDate)
                 .setExpiration(new Date(currentDate.getTime() + expiration))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 
-    public String generateAccessTokenFromUsername(BearerUser user) {
-        return generateTokenFromUsername(user, jwtAccessSecret, jwtAccessExpiration);
+    public String generateAccessTokenFromUserId(Integer userId) {
+        return generateTokenFromUserId(userId, jwtAccessSecret, jwtAccessExpiration);
     }
 
-    public String generateRefreshTokenFromUsername(BearerUser user) {
-        return generateTokenFromUsername(user, jwtRefreshSecret, jwtRefreshExpiration);
+    public String generateRefreshTokenFromUserId(Integer userId) {
+        return generateTokenFromUserId(userId, jwtRefreshSecret, jwtRefreshExpiration);
     }
 
-    private BearerUser getUsernameFromJwtToken(String token, String secretKey) {
-        Integer id = Integer.parseInt(Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject());
-        return new BearerUser(id);
+    private Integer getUserIdFromJwtToken(String token, String secretKey) {
+        return Integer.parseInt(Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject());
     }
 
-    public BearerUser getUserFromAccessJwtToken(String token) {
-        return getUsernameFromJwtToken(token, jwtAccessSecret);
+    public Integer getUserIdFromAccessJwtToken(String token) {
+        return getUserIdFromJwtToken(token, jwtAccessSecret);
     }
 
-    public BearerUser getUsernameFromRefreshJwtToken(String token) {
-        return getUsernameFromJwtToken(token, jwtRefreshSecret);
+    public Integer getUserIdFromRefreshJwtToken(String token) {
+        return getUserIdFromJwtToken(token, jwtRefreshSecret);
     }
 
     public boolean validateJwtToken(String authToken, String jwtSecret) {

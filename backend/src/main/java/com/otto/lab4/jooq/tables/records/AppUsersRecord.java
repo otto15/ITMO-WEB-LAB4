@@ -22,42 +22,42 @@ public class AppUsersRecord extends UpdatableRecordImpl<AppUsersRecord> implemen
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>s335109.app_users.id</code>.
+     * Setter for <code>public.app_users.id</code>.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>s335109.app_users.id</code>.
+     * Getter for <code>public.app_users.id</code>.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>s335109.app_users.name</code>.
+     * Setter for <code>public.app_users.name</code>.
      */
     public void setName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>s335109.app_users.name</code>.
+     * Getter for <code>public.app_users.name</code>.
      */
     public String getName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>s335109.app_users.password</code>.
+     * Setter for <code>public.app_users.password</code>.
      */
     public void setPassword(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>s335109.app_users.password</code>.
+     * Getter for <code>public.app_users.password</code>.
      */
     public String getPassword() {
         return (String) get(2);

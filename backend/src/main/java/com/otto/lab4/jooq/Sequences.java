@@ -10,18 +10,28 @@ import org.jooq.impl.SQLDataType;
 
 
 /**
- * Convenience access to all sequences in s335109.
+ * Convenience access to all sequences in public.
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Sequences {
 
     /**
-     * The sequence <code>s335109.app_users_id_seq</code>
+     * The sequence <code>public.app_users_id_seq</code>
      */
-    public static final Sequence<Integer> APP_USERS_ID_SEQ = Internal.createSequence("app_users_id_seq", S335109.S335109, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+    public static final Sequence<Integer> APP_USERS_ID_SEQ = Internal.createSequence("app_users_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
 
     /**
-     * The sequence <code>s335109.hit_checks_id_seq</code>
+     * The sequence <code>public.audited_methods_id_seq</code>
      */
-    public static final Sequence<Integer> HIT_CHECKS_ID_SEQ = Internal.createSequence("hit_checks_id_seq", S335109.S335109, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+    public static final Sequence<Integer> AUDITED_METHODS_ID_SEQ = Internal.createSequence("audited_methods_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+
+    /**
+     * The sequence <code>public.hit_checks_id_seq</code>
+     */
+    public static final Sequence<Integer> HIT_CHECKS_ID_SEQ = Internal.createSequence("hit_checks_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+
+    /**
+     * The sequence <code>public.restricted_refresh_tokens_id_seq</code>
+     */
+    public static final Sequence<Integer> RESTRICTED_REFRESH_TOKENS_ID_SEQ = Internal.createSequence("restricted_refresh_tokens_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
 }

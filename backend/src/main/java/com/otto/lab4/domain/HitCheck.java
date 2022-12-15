@@ -1,9 +1,7 @@
 package com.otto.lab4.domain;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
-
 
 import java.time.Instant;
 

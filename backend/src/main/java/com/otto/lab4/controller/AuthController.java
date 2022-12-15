@@ -1,15 +1,14 @@
 package com.otto.lab4.controller;
 
+import com.otto.lab4.audited.Audited;
 import com.otto.lab4.controller.dto.JwtResponse;
-import com.otto.lab4.controller.dto.Message;
 import com.otto.lab4.controller.dto.RefreshTokenDTO;
 import com.otto.lab4.controller.dto.UserCredentialsDTO;
-import com.otto.lab4.exception.GlobalException;
 import com.otto.lab4.service.UserService;
+
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,9 +36,15 @@ public class AuthController {
         userService.register(userCredentials);
     }
 
+    @Audited
     @PostMapping("/refresh")
     public JwtResponse refresh(@Valid @RequestBody RefreshTokenDTO refreshTokenDTO) {
         return userService.refresh(refreshTokenDTO.getRefreshToken());
+    }
+
+    @PostMapping("/logout")
+    public void logout(@Valid @RequestBody RefreshTokenDTO refreshTokenDTO) {
+        userService.logout(refreshTokenDTO.getRefreshToken());
     }
 
 }

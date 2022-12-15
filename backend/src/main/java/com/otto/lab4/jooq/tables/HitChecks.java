@@ -5,7 +5,7 @@ package com.otto.lab4.jooq.tables;
 
 
 import com.otto.lab4.jooq.Keys;
-import com.otto.lab4.jooq.S335109;
+import com.otto.lab4.jooq.Public;
 import com.otto.lab4.jooq.tables.records.HitChecksRecord;
 
 import java.time.OffsetDateTime;
@@ -37,7 +37,7 @@ public class HitChecks extends TableImpl<HitChecksRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>s335109.hit_checks</code>
+     * The reference instance of <code>public.hit_checks</code>
      */
     public static final HitChecks HIT_CHECKS = new HitChecks();
 
@@ -50,42 +50,42 @@ public class HitChecks extends TableImpl<HitChecksRecord> {
     }
 
     /**
-     * The column <code>s335109.hit_checks.id</code>.
+     * The column <code>public.hit_checks.id</code>.
      */
     public final TableField<HitChecksRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>s335109.hit_checks.user_id</code>.
+     * The column <code>public.hit_checks.user_id</code>.
      */
     public final TableField<HitChecksRecord, Integer> USER_ID = createField(DSL.name("user_id"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>s335109.hit_checks.x</code>.
+     * The column <code>public.hit_checks.x</code>.
      */
     public final TableField<HitChecksRecord, Double> X = createField(DSL.name("x"), SQLDataType.DOUBLE.nullable(false), this, "");
 
     /**
-     * The column <code>s335109.hit_checks.y</code>.
+     * The column <code>public.hit_checks.y</code>.
      */
     public final TableField<HitChecksRecord, Double> Y = createField(DSL.name("y"), SQLDataType.DOUBLE.nullable(false), this, "");
 
     /**
-     * The column <code>s335109.hit_checks.r</code>.
+     * The column <code>public.hit_checks.r</code>.
      */
     public final TableField<HitChecksRecord, Double> R = createField(DSL.name("r"), SQLDataType.DOUBLE.nullable(false), this, "");
 
     /**
-     * The column <code>s335109.hit_checks.calling_date</code>.
+     * The column <code>public.hit_checks.calling_date</code>.
      */
     public final TableField<HitChecksRecord, OffsetDateTime> CALLING_DATE = createField(DSL.name("calling_date"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "");
 
     /**
-     * The column <code>s335109.hit_checks.execution_time</code>.
+     * The column <code>public.hit_checks.execution_time</code>.
      */
     public final TableField<HitChecksRecord, Long> EXECUTION_TIME = createField(DSL.name("execution_time"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>s335109.hit_checks.hit_status</code>.
+     * The column <code>public.hit_checks.hit_status</code>.
      */
     public final TableField<HitChecksRecord, Boolean> HIT_STATUS = createField(DSL.name("hit_status"), SQLDataType.BOOLEAN.nullable(false), this, "");
 
@@ -98,21 +98,21 @@ public class HitChecks extends TableImpl<HitChecksRecord> {
     }
 
     /**
-     * Create an aliased <code>s335109.hit_checks</code> table reference
+     * Create an aliased <code>public.hit_checks</code> table reference
      */
     public HitChecks(String alias) {
         this(DSL.name(alias), HIT_CHECKS);
     }
 
     /**
-     * Create an aliased <code>s335109.hit_checks</code> table reference
+     * Create an aliased <code>public.hit_checks</code> table reference
      */
     public HitChecks(Name alias) {
         this(alias, HIT_CHECKS);
     }
 
     /**
-     * Create a <code>s335109.hit_checks</code> table reference
+     * Create a <code>public.hit_checks</code> table reference
      */
     public HitChecks() {
         this(DSL.name("hit_checks"), null);
@@ -124,7 +124,7 @@ public class HitChecks extends TableImpl<HitChecksRecord> {
 
     @Override
     public Schema getSchema() {
-        return S335109.S335109;
+        return Public.PUBLIC;
     }
 
     @Override

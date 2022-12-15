@@ -5,6 +5,7 @@ import com.otto.lab4.controller.dto.UserCredentialsDTO;
 import com.otto.lab4.domain.AppUser;
 import com.otto.lab4.exception.InvalidRefreshTokenException;
 import com.otto.lab4.exception.UserAlreadyExistsException;
+import com.otto.lab4.repository.RefreshTokenRepository;
 import com.otto.lab4.repository.UserRepository;
 import com.otto.lab4.security.jwt.JwtUtils;
 import com.otto.lab4.security.service.BearerUser;
@@ -21,17 +22,26 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+
+    private final JwtUtils jwtUtils;
+
+    private final UserRepository userRepository;
+
+    private final PasswordEncoder encoder;
+
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @Autowired
-    private JwtUtils jwtUtils;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder encoder;
+    public UserServiceImpl(AuthenticationManager authenticationManager, JwtUtils jwtUtils,
+                           UserRepository userRepository, PasswordEncoder passwordEncoder,
+                           RefreshTokenRepository refreshTokenRepository) {
+        this.authenticationManager = authenticationManager;
+        this.jwtUtils = jwtUtils;
+        this.userRepository = userRepository;
+        this.encoder = passwordEncoder;
+        this.refreshTokenRepository = refreshTokenRepository;
+    }
 
     @Override
     public JwtResponse login(UserCredentialsDTO userCredentialsDTO) {
@@ -39,9 +49,8 @@ public class UserServiceImpl implements UserService {
                 new UsernamePasswordAuthenticationToken(userCredentialsDTO.getUsername(), userCredentialsDTO.getPassword())
         );
         UserDetailsImpl userDetails = (UserDetailsImpl) auth.getPrincipal();
-        BearerUser authedUser = new BearerUser(userDetails.getId());
-        String accessToken = jwtUtils.generateAccessTokenFromUsername(authedUser);
-        String refreshToken = jwtUtils.generateRefreshTokenFromUsername(authedUser);
+        String accessToken = jwtUtils.generateAccessTokenFromUserId(userDetails.getId());
+        String refreshToken = jwtUtils.generateRefreshTokenFromUserId(userDetails.getId());
 
         return JwtResponse.builder()
                 .userId(userDetails.getId())
@@ -59,19 +68,17 @@ public class UserServiceImpl implements UserService {
                 .build();
         try {
             userRepository.save(user);
-            System.out.println("1");
         } catch (DataIntegrityViolationException e) {
-            System.out.println("2");
             throw new UserAlreadyExistsException();
         }
     }
 
     @Override
     public JwtResponse refresh(String refreshToken) {
-        if (jwtUtils.validateRefreshJwtToken(refreshToken)) {
+        if (jwtUtils.validateRefreshJwtToken(refreshToken) && !refreshTokenRepository.existByToken(refreshToken)) {
 
-            String newAccessToken = jwtUtils.generateAccessTokenFromUsername(jwtUtils
-                    .getUsernameFromRefreshJwtToken(refreshToken));
+            String newAccessToken = jwtUtils.generateAccessTokenFromUserId(jwtUtils
+                    .getUserIdFromRefreshJwtToken(refreshToken));
             return JwtResponse.builder()
                     .type(JwtUtils.TOKEN_TYPE)
                     .refreshToken(refreshToken)
@@ -79,5 +86,12 @@ public class UserServiceImpl implements UserService {
                     .build();
         }
         throw new InvalidRefreshTokenException();
+    }
+
+    @Override
+    public void logout(String refreshToken) {
+        if (jwtUtils.validateRefreshJwtToken(refreshToken)) {
+            refreshTokenRepository.save(refreshToken);
+        }
     }
 }

@@ -5,22 +5,34 @@ package com.otto.lab4.jooq;
 
 
 import com.otto.lab4.jooq.tables.AppUsers;
+import com.otto.lab4.jooq.tables.AuditedMethods;
 import com.otto.lab4.jooq.tables.HitChecks;
+import com.otto.lab4.jooq.tables.RestrictedRefreshTokens;
 
 
 /**
- * Convenience access to all tables in s335109.
+ * Convenience access to all tables in public.
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
 
     /**
-     * The table <code>s335109.app_users</code>.
+     * The table <code>public.app_users</code>.
      */
     public static final AppUsers APP_USERS = AppUsers.APP_USERS;
 
     /**
-     * The table <code>s335109.hit_checks</code>.
+     * The table <code>public.audited_methods</code>.
+     */
+    public static final AuditedMethods AUDITED_METHODS = AuditedMethods.AUDITED_METHODS;
+
+    /**
+     * The table <code>public.hit_checks</code>.
      */
     public static final HitChecks HIT_CHECKS = HitChecks.HIT_CHECKS;
+
+    /**
+     * The table <code>public.restricted_refresh_tokens</code>.
+     */
+    public static final RestrictedRefreshTokens RESTRICTED_REFRESH_TOKENS = RestrictedRefreshTokens.RESTRICTED_REFRESH_TOKENS;
 }

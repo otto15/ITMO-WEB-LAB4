@@ -24,112 +24,112 @@ public class HitChecksRecord extends UpdatableRecordImpl<HitChecksRecord> implem
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>s335109.hit_checks.id</code>.
+     * Setter for <code>public.hit_checks.id</code>.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>s335109.hit_checks.id</code>.
+     * Getter for <code>public.hit_checks.id</code>.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>s335109.hit_checks.user_id</code>.
+     * Setter for <code>public.hit_checks.user_id</code>.
      */
     public void setUserId(Integer value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>s335109.hit_checks.user_id</code>.
+     * Getter for <code>public.hit_checks.user_id</code>.
      */
     public Integer getUserId() {
         return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>s335109.hit_checks.x</code>.
+     * Setter for <code>public.hit_checks.x</code>.
      */
     public void setX(Double value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>s335109.hit_checks.x</code>.
+     * Getter for <code>public.hit_checks.x</code>.
      */
     public Double getX() {
         return (Double) get(2);
     }
 
     /**
-     * Setter for <code>s335109.hit_checks.y</code>.
+     * Setter for <code>public.hit_checks.y</code>.
      */
     public void setY(Double value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>s335109.hit_checks.y</code>.
+     * Getter for <code>public.hit_checks.y</code>.
      */
     public Double getY() {
         return (Double) get(3);
     }
 
     /**
-     * Setter for <code>s335109.hit_checks.r</code>.
+     * Setter for <code>public.hit_checks.r</code>.
      */
     public void setR(Double value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>s335109.hit_checks.r</code>.
+     * Getter for <code>public.hit_checks.r</code>.
      */
     public Double getR() {
         return (Double) get(4);
     }
 
     /**
-     * Setter for <code>s335109.hit_checks.calling_date</code>.
+     * Setter for <code>public.hit_checks.calling_date</code>.
      */
     public void setCallingDate(OffsetDateTime value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>s335109.hit_checks.calling_date</code>.
+     * Getter for <code>public.hit_checks.calling_date</code>.
      */
     public OffsetDateTime getCallingDate() {
         return (OffsetDateTime) get(5);
     }
 
     /**
-     * Setter for <code>s335109.hit_checks.execution_time</code>.
+     * Setter for <code>public.hit_checks.execution_time</code>.
      */
     public void setExecutionTime(Long value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>s335109.hit_checks.execution_time</code>.
+     * Getter for <code>public.hit_checks.execution_time</code>.
      */
     public Long getExecutionTime() {
         return (Long) get(6);
     }
 
     /**
-     * Setter for <code>s335109.hit_checks.hit_status</code>.
+     * Setter for <code>public.hit_checks.hit_status</code>.
      */
     public void setHitStatus(Boolean value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>s335109.hit_checks.hit_status</code>.
+     * Getter for <code>public.hit_checks.hit_status</code>.
      */
     public Boolean getHitStatus() {
         return (Boolean) get(7);
