@@ -10,6 +10,7 @@ const setup = (store) => {
     (config) => {
       const token = TokenService.getLocalAccessToken();
       const tokenType = TokenService.getTokenType();
+      console.log(token);
       if (token && tokenType) {
         config.headers["Authorization"] = tokenType + " " + token;
       }

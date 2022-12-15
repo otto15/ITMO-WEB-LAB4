@@ -13,16 +13,16 @@ export const hitCheck = {
           dispatch("getAllHitChecks");
           return Promise.resolve(response);
         },
-        (error) => {}
+        (error) => {
+          return Promise.reject(error);
+        }
       );
     },
     getAllHitChecks({ commit }) {
-      HitCheckService.getAllHitChecks().then(
-        (hitChecks) => {
-          commit("setHitChecks", hitChecks);
-          return Promise.resolve(hitChecks);
-        }
-      );
+      HitCheckService.getAllHitChecks().then((hitChecks) => {
+        commit("setHitChecks", hitChecks);
+        return Promise.resolve(hitChecks);
+      });
     },
     deleteAll({ commit }) {
       HitCheckService.deleteAllHitChecks().then(

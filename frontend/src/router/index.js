@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import MainView from "@/views/MainView";
 import LoginView from "@/views/LoginView";
 import RegisterView from "@/views/RegisterView";
-import tokenService from "@/services/tokenService";
+import store from "@/store";
 
 const routes = [
   {
@@ -21,9 +21,9 @@ const routes = [
     component: MainView,
   },
   {
-    path: '/:pathMatch(.*)*',
+    path: "/:pathMatch(.*)*",
     redirect: "/main",
-  }
+  },
 ];
 
 const router = createRouter({
@@ -34,7 +34,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const publicPages = ["/", "/register"];
   const authRequired = !publicPages.includes(to.path);
-  const loggedIn = tokenService.getUser();
+  const loggedIn = store.state.auth.user;
   if (authRequired && !loggedIn) {
     next("/");
   } else if (!authRequired && loggedIn) {

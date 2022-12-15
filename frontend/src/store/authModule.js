@@ -1,4 +1,5 @@
 import AuthService from "@/services/authService";
+import TokenService from "@/services/tokenService";
 
 const user = JSON.parse(localStorage.getItem("user"));
 const initialState = user
@@ -22,7 +23,16 @@ export const auth = {
       );
     },
     logout({ commit }) {
-      AuthService.logout();
+      AuthService.logout().then(
+        (response) => {
+          TokenService.removeUser();
+          return Promise.resolve(response);
+        },
+        (error) => {
+          TokenService.removeUser();
+          return Promise.reject(error);
+        }
+      );
       commit("logout");
     },
     register({ commit }, user) {

@@ -3,6 +3,7 @@ import api from "@/services/api";
 
 const LOGIN_POSTFIX = "api/auth/login";
 const REGISTER_POSTFIX = "api/auth/register";
+const LOGOUT_POSTFIX = "api/auth/logout";
 
 class AuthService {
   login(user) {
@@ -20,7 +21,9 @@ class AuthService {
   }
 
   logout() {
-    TokenService.removeUser();
+    return api.post(LOGOUT_POSTFIX, {
+      refreshToken: TokenService.getLocalRefreshToken(),
+    });
   }
 
   register(user) {
